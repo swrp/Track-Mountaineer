@@ -34,6 +34,6 @@ As a user, I want to track the changes at frequent intervals, so I can check the
 
 ## Architectural Diagram
 <p align="center">
-   <img width="719" alt="architectural_diagram" src="https://user-images.githubusercontent.com/31106457/37238591-6e03b798-23ef-11e8-8506-f8be9931deab.png">
+   <img width="726" alt="screen shot 2018-03-10 at 5 40 08 pm" src="https://user-images.githubusercontent.com/31106457/37247954-42049fcc-248a-11e8-8374-e9c35e349d2a.png">
 </p>
 
