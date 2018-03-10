@@ -33,7 +33,7 @@ As a user, I want to track the changes at frequent intervals, so I can check the
 * ~~add one more~~
 
 ## Architectural Diagram
-
+<p align="center">
    <img width="719" alt="architectural_diagram" src="https://user-images.githubusercontent.com/31106457/37238591-6e03b798-23ef-11e8-8506-f8be9931deab.png">
-
+</p>
 
