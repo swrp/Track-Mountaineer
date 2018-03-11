@@ -37,3 +37,25 @@ As a user, I want to track the changes at frequent intervals, so I can check the
    <img width="726" alt="screen shot 2018-03-10 at 5 40 08 pm" src="https://user-images.githubusercontent.com/31106457/37247954-42049fcc-248a-11e8-8374-e9c35e349d2a.png">
 </p>
 
+## Component List
+```
+1. Mobile Application
+The Android app connects with Meta Tracker device to fetch data using the bluetooth Module.
+Once the application reaches a threshold pressure value it sends a notification to the user. 
+   1.1 User Login
+         The Application requires User credentials to secure data from unauthorized users.
+   1.2 Home screen View
+         A Homescreen that shows the recent tracked data.
+   1.3 Graphical View 
+         A graphical view of all the captured data for each day.
+   
+2. MetaWear API
+   Mbient has a API Reference that allows to connect and transfer data between client(Mobile device) and Server(Meta Tracker). 
+   Metawear API has interfaces which can be used to fetch data from thermistor/barometric pressure sensors. 
+   
+3. Hardware Devices
+   Meta Tracker Sensor has built-in sensors that can capture barometric pressure and temperature. 
+   The data is streamed via Bluetooth Low Energy at up to 100Hz.
+   3.1 BME280 sensor for Barometer and Humidity 
+   3.2 Thermistor Sensor to capture atmospheric temperature. 
+```
