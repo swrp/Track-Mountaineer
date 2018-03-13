@@ -31,11 +31,6 @@ As a **user**, I want to **have a graphical view of all the tracked data**, so I
 * Make a graphical representation of the data.
 
 ## Misuser stories
-As a **misuser**, I want to **sniff the traffic between the wearable device and the mobile application** so I can **send different values to the application/perform a man-in-the-middle attack**. 
-
-**Mitigations:**
-* Encrypt the Bluetooth channel, so that the adversary cannot figure out the BLE packets.
-* The channel should operate using SSL/TLS with certificate verification
 
 As a **malicious user**, I want to **falsify the stored data (pressure and temperature) on the mobile phone** so I can **change the graphical plot the stored pressure and temperature data**.     
 
@@ -50,6 +45,11 @@ As a **attacker**, I want to **launch a denial of service attack on the wearable
 * Turn off the Bluetooth discoverable mode after pairing of the devices, since once the devices are paired they can remember each other
 * Always turn off the Bluetooth when not in use
 * Verify the firmware updates from the vendors website before updating the device.
+
+As a **misuser**, I want to **sniff the traffic between the wearable device and the mobile application** so I can **send different values to the application/perform a man-in-the-middle attack**. 
+
+**Mitigations:**
+* Encrypt the Bluetooth channel, so that the adversary cannot figure out the BLE packets.
 
 
 ## Architectural Diagram
@@ -78,4 +78,16 @@ Once the application reaches a threshold pressure value it sends a notification 
    The data is streamed via Bluetooth Low Energy at up to 100Hz.
    3.1 BME280 sensor for Barometer and Humidity 
    3.2 Thermistor Sensor to capture atmospheric temperature. 
+ 
 ```
+
+## Security Analysis
+| Component Name                                                                                                                      | Category of Vulnerability | Issue Description                                                                                                                           | Mitigation                                                                              | 
+|-------------------------------------------------------------------------------------------------------------------------------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------| 
+| Metawear device                                                                                                                     | Data sniffing             | When the data is sending through the BLE channel, attacker can extract the information from the BLE interface between device and smartphone | Encrypting the BLE channel.                                                             | 
+|                                                                                                                                     | Denial of Service(DoS)    | DoS attack can be possible which is delivered by fake firmware update.                                                                      | Update the device only  from vendor legitimate website                                  |                                                                                   
+|                                                                                                                                     | Tampering                 | Changing sensor components via physical manipulation of the device.                                                                         | Securing the metaware device in a tamper proof box.                                     | 
+| Mobile Application                                                                                                                  | User impersonation        | Spoofing the user with unauthorized user credentials                                                                                        | Ensure device mutual authentication is performed for all connections. Implement multi-factor authentication to prevent automated, credential stuffing, brute force, and stolen credential re-use attacks. |                           |                                                                                                                                             |                                                                                         | 
+|                                                                                                                                     |                   Data Tampering        | Physical tampering of the data on the mobile application and changing the values                                                            | The data should be resides in encrypted storage in the internal app directory.          | 
+|                                                                                                                                     | Phishing                  | The mobile application is prone to phishing attacks through malicious popups or alert.                                                      | User training to prevent clicking on unknown popups and whitelisting of trusted sources | 
+
