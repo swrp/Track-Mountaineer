@@ -30,6 +30,28 @@ As a **user**, I want to **have a graphical view of all the tracked data**, so I
 * Store the captured data in the mobile device.
 * Make a graphical representation of the data.
 
+## Misuser stories
+As a **misuser**, I want to **sniff the traffic between the wearable device and the mobile application** so I can **send different values to the application/perform a man-in-the-middle attack**. 
+
+**Mitigations:**
+* Encrypt the Bluetooth channel, so that the adversary cannot figure out the BLE packets.
+* The channel should operate using SSL/TLS with certificate verification
+
+As a **malicious user**, I want to **falsify the stored data (pressure and temperature) on the mobile phone** so I can **change the graphical plot the stored pressure and temperature data**.     
+
+**Mitigations:**
+* Ensure mutual authentication is provided on all connection.
+* Do not click on unwanted and malicious requests in the application.
+* Ensure that device should not be physically tampered.
+
+As a **attacker**, I want to **launch a denial of service attack on the wearable device** so I can **crash the device so that the device cannot function as it if required**. 
+
+ **Mitigations:**
+* Turn off the Bluetooth discoverable mode after pairing of the devices, since once the devices are paired they can remember each other
+* Always turn off the Bluetooth when not in use
+* Verify the firmware updates from the vendors website before updating the device.
+
+
 ## Architectural Diagram
 <p align="center">
    <img width="726" alt="screen shot 2018-03-10 at 5 40 08 pm" src="https://user-images.githubusercontent.com/31106457/37247954-42049fcc-248a-11e8-8374-e9c35e349d2a.png">
