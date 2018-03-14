@@ -49,12 +49,12 @@ As a **attacker**, I want to **launch a denial of service attack on the wearable
 As a **misuser**, I want to **sniff the traffic between the wearable device and the mobile application** so I can **send different values to the application/perform a man-in-the-middle attack**. 
 
 **Mitigations:**
-* Encrypt the Bluetooth channel, so that the adversary cannot figure out the BLE packets.
+* Encrypt the Bluetooth channel, so that the adversary cannot figure out the Bluetooth Low Energy(BLE) packets.
 
 
 ## Architectural Diagram
 <p align="center">
-   <img width="726" alt="screen shot 2018-03-10 at 5 40 08 pm" src="https://user-images.githubusercontent.com/31106457/37247954-42049fcc-248a-11e8-8374-e9c35e349d2a.png">
+   <img width="897" alt="screen shot 2018-03-13 at 7 34 49 pm" src="https://user-images.githubusercontent.com/31106457/37377057-be5337c4-26f5-11e8-95c6-de5e2e4ddec9.png">
 </p>
 
 ## Component List
