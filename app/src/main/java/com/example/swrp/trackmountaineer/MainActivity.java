@@ -37,14 +37,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     private Temperature temperature;
 
-    private Temperature.Sensor tempSensor;
-
-
-
-    private byte gpioDataPin= 0, gpioPulldownPin= 1;
-    private boolean activeHigh= false;
     private int selectedSourceIndex= 0;
 
+    private Temperature.Sensor tempSensor;
 
 
     @Override
@@ -103,10 +98,12 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
                 temperature = mwBoard.getModuleOrThrow(Temperature.class);
 
+                tempSensor = temperature.sensors()[selectedSourceIndex];
+
                 ((Temperature.ExternalThermistor) temperature.findSensors(Temperature.SensorType.EXT_THERMISTOR)[0])
                         .configure((byte) 0, (byte) 1, false);
 
-                Temperature.Sensor tempSensor = temperature.sensors()[selectedSourceIndex];
+
 
                 return tempSensor.addRouteAsync(new RouteBuilder() {
                     @Override
