@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TrackMountaineer.iml" filepath="$PROJECT_DIR$/TrackMountaineer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Track-Mountaineer.iml" filepath="$PROJECT_DIR$/Track-Mountaineer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
