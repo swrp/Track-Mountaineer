@@ -8,17 +8,21 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.mbientlab.metawear.Data;
 import com.mbientlab.metawear.MetaWearBoard;
 import com.mbientlab.metawear.Route;
 import com.mbientlab.metawear.Subscriber;
+import com.mbientlab.metawear.UnsupportedModuleException;
 import com.mbientlab.metawear.android.BtleService;
 import com.mbientlab.metawear.builder.RouteBuilder;
 import com.mbientlab.metawear.builder.RouteComponent;
+import com.mbientlab.metawear.module.BarometerBosch;
 import com.mbientlab.metawear.module.Temperature;
 
 import bolts.Continuation;
@@ -31,15 +35,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     private final String MW_MAC_ADDRESS= "C0:F3:B7:B6:16:DA";
 
-    private MetaWearBoard mwBoard;
+    static MetaWearBoard mwBoard;
 
     private BtleService.LocalBinder serviceBinder;
 
-    private Temperature temperature;
-
     private int selectedSourceIndex= 0;
 
-    private Temperature.Sensor tempSensor;
+    private TextView textView;
 
 
     @Override
@@ -51,12 +53,17 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         getApplicationContext().bindService(new Intent(this, BtleService.class),
                 this, Context.BIND_AUTO_CREATE);
 
-        findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tempSensor.read();
-            }
-        });
+        textView = findViewById(R.id.pressureValue);
+
+
+
+            findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   Intent intent = new Intent(MainActivity.this, DownloadService.class);
+                   startService(intent);
+                }
+            });
     }
 
 
@@ -73,15 +80,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void onServiceConnected(ComponentName name, IBinder service) {
         serviceBinder = (BtleService.LocalBinder) service;
         Log.i(TAG, "Service connected");
-        retrieveBoard();
+        connectBLE();
     }
 
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-
-    }
-
-    public void retrieveBoard() {
+    private void connectBLE() {
         final BluetoothManager btManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         final BluetoothDevice remoteDevice =
@@ -90,45 +92,16 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         // Create a MetaWear board object for the Bluetooth Device
         mwBoard = serviceBinder.getMetaWearBoard(remoteDevice);
 
-        mwBoard.connectAsync().onSuccessTask(new Continuation<Void, Task<Route>>() {
-            @Override
-            public Task<Route> then(Task<Void> task) throws Exception {
+        Log.i(TAG, "Service Connected to ... " + MW_MAC_ADDRESS);
 
-                    Log.i(TAG, "Service Connected to ... " + MW_MAC_ADDRESS);
-
-                temperature = mwBoard.getModuleOrThrow(Temperature.class);
-
-                tempSensor = temperature.sensors()[selectedSourceIndex];
-
-                ((Temperature.ExternalThermistor) temperature.findSensors(Temperature.SensorType.EXT_THERMISTOR)[0])
-                        .configure((byte) 0, (byte) 1, false);
-
-
-
-                return tempSensor.addRouteAsync(new RouteBuilder() {
-                    @Override
-                    public void configure(RouteComponent source) {
-                        source.stream(new Subscriber() {
-                            @Override
-                            public void apply(Data data, Object... env) {
-                                Log.i(TAG, "Temperature (C) = " + data.value(Float.class));
-                            }
-                        });
-                    }
-                });
-            }
-        }).continueWith(new Continuation<Route, Void>() {
-            @Override
-            public Void then(Task<Route> task) throws Exception {
-                if (task.isFaulted()) {
-                    Log.w(TAG, "Failed to configure the app" + task.getError());
-                } else {
-                    Log.i(TAG, "App Configured");
-                }
-                return null;
-            }
-        });
     }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+
+    }
+
 }
+
 
 

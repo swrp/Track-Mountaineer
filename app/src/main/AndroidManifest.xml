@@ -20,6 +20,7 @@
         </activity>
 
         <service android:name="com.mbientlab.metawear.android.BtleService" />
+        <service android:name=".DownloadService" />
 
     </application>
 
