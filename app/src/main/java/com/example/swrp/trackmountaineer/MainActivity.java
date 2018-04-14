@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     private int selectedSourceIndex= 0;
 
-    private TextView textView;
+    //private TextView textView;
 
 
     @Override
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         getApplicationContext().bindService(new Intent(this, BtleService.class),
                 this, Context.BIND_AUTO_CREATE);
 
-        textView = findViewById(R.id.pressureValue);
+       // textView = findViewById(R.id.pressureValue);
 
 
 
