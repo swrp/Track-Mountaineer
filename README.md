@@ -16,7 +16,7 @@ As a **mountaineer**, I want to **see climatic changes as I climb**, so I can **
 **Acceptance Criteria:**
 * Track surrounding temperatures
 * Track surrounding pressure
-* Save all the tracked data in the file
+* Save all the tracked data in a file
 
 As a **user**, I want to **get notifications on my mobile**, so I can **use oxygen mask to maintain my heartbeat**.
 
