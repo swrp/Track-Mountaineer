@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     //PUSH NOTIFICATIONS TO THE MOBILE
     //SAVE DATA IN A TABLE
 
+    private Float max, min;
 
     private static final String TAG = "Track-Mountaineer";
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 this, Context.BIND_AUTO_CREATE);
 
         chart = findViewById(R.id.dataChart);
+        initializeChart();
         chart.invalidate();
         chart.setDescription(null);
 
@@ -75,9 +78,15 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                     ILineDataSet dataSet = new LineDataSet(pressureData , "Tracked Pressure Values");
                     LineData lineData = new LineData(dataSet);
                     chart.setData(lineData);
+                    chart.invalidate();
                 }
             });
     }
+
+        protected void initializeChart() {
+            ///< configure axis settings
+            YAxis leftAxis = chart.getAxisLeft();
+        }
 
 
     @Override
@@ -110,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
-
     }
 
 }
