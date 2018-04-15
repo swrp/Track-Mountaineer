@@ -50,15 +50,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         getApplicationContext().bindService(new Intent(this, BtleService.class),
                 this, Context.BIND_AUTO_CREATE);
 
-        chart = findViewById(R.id.dataChart);
-        initializeChart();
-        chart.invalidate();
-        chart.setDescription(null);
-
             findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new DownloadHandler(MainActivity.this).initialise();
                 Intent intent = new Intent(MainActivity.this, DownloadService.class);
                 startService(intent);
             }
@@ -72,21 +66,16 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 }
                 });
 
+            // ShowGraph Button for Graphical Representation of Tracked Pressure Values
             findViewById(R.id.showGraph).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ILineDataSet dataSet = new LineDataSet(pressureData , "Tracked Pressure Values");
-                    LineData lineData = new LineData(dataSet);
-                    chart.setData(lineData);
-                    chart.invalidate();
+
+                    Intent intent = new Intent(MainActivity.this, ShowGraph.class);
+                    startActivity(intent);
                 }
             });
     }
-
-        protected void initializeChart() {
-            ///< configure axis settings
-            YAxis leftAxis = chart.getAxisLeft();
-        }
 
 
     @Override
@@ -104,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         connectBLE();
     }
 
+    // Method to Connect to the Sensor Bluetooth Module
     private void connectBLE() {
         final BluetoothManager btManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);

@@ -22,6 +22,8 @@
         <service android:name="com.mbientlab.metawear.android.BtleService" />
         <service android:name=".DownloadService" />
 
+        <activity android:name=".ShowGraph" android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

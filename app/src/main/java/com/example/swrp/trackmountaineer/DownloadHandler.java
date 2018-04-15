@@ -5,9 +5,6 @@ import android.os.Message;
 import android.util.Log;
 
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mbientlab.metawear.Data;
 import com.mbientlab.metawear.MetaWearBoard;
 import com.mbientlab.metawear.Route;
@@ -22,7 +19,6 @@ import java.util.ArrayList;
 import bolts.Continuation;
 import bolts.Task;
 
-import static com.example.swrp.trackmountaineer.MainActivity.chart;
 import static com.example.swrp.trackmountaineer.MainActivity.mwBoard;
 
 class DownloadHandler extends Handler  {
