@@ -8,27 +8,25 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import com.mbientlab.metawear.Data;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mbientlab.metawear.MetaWearBoard;
-import com.mbientlab.metawear.Route;
-import com.mbientlab.metawear.Subscriber;
-import com.mbientlab.metawear.UnsupportedModuleException;
 import com.mbientlab.metawear.android.BtleService;
-import com.mbientlab.metawear.builder.RouteBuilder;
-import com.mbientlab.metawear.builder.RouteComponent;
-import com.mbientlab.metawear.module.BarometerBosch;
-import com.mbientlab.metawear.module.Temperature;
 
-import bolts.Continuation;
-import bolts.Task;
+import static com.example.swrp.trackmountaineer.DownloadHandler.baroBosch;
+import static com.example.swrp.trackmountaineer.DownloadHandler.pressureData;
 
 public class MainActivity extends AppCompatActivity implements ServiceConnection {
+
+    //MAKE A CHART TO REPRESENT DATA
+    //PUSH NOTIFICATIONS TO THE MOBILE
+    //SAVE DATA IN A TABLE
 
 
     private static final String TAG = "Track-Mountaineer";
@@ -39,10 +37,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     private BtleService.LocalBinder serviceBinder;
 
-    private int selectedSourceIndex= 0;
-
-    //private TextView textView;
-
+    static LineChart chart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +48,33 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         getApplicationContext().bindService(new Intent(this, BtleService.class),
                 this, Context.BIND_AUTO_CREATE);
 
-       // textView = findViewById(R.id.pressureValue);
-
-
+        chart = findViewById(R.id.dataChart);
+        chart.invalidate();
+        chart.setDescription(null);
 
             findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //new DownloadHandler(MainActivity.this).initialise();
+                Intent intent = new Intent(MainActivity.this, DownloadService.class);
+                startService(intent);
+            }
+        });
+
+            findViewById(R.id.stopButton).setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v){
+                    baroBosch.stop();
+                }
+                });
+
+            findViewById(R.id.showGraph).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   Intent intent = new Intent(MainActivity.this, DownloadService.class);
-                   startService(intent);
+                    ILineDataSet dataSet = new LineDataSet(pressureData , "Tracked Pressure Values");
+                    LineData lineData = new LineData(dataSet);
+                    chart.setData(lineData);
                 }
             });
     }
@@ -71,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void onDestroy() {
         super.onDestroy();
 
-        ///< Unbind the service when the activity is destroyed
         getApplicationContext().unbindService(this);
     }
 

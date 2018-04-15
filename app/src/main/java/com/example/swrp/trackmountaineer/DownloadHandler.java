@@ -4,6 +4,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mbientlab.metawear.Data;
 import com.mbientlab.metawear.MetaWearBoard;
 import com.mbientlab.metawear.Route;
@@ -13,26 +17,47 @@ import com.mbientlab.metawear.builder.RouteBuilder;
 import com.mbientlab.metawear.builder.RouteComponent;
 import com.mbientlab.metawear.module.BarometerBosch;
 
+import java.util.ArrayList;
+
 import bolts.Continuation;
 import bolts.Task;
 
+import static com.example.swrp.trackmountaineer.MainActivity.chart;
 import static com.example.swrp.trackmountaineer.MainActivity.mwBoard;
 
-class DownloadHandler extends Handler {
+class DownloadHandler extends Handler  {
+
+    private MainActivity mainActivity;
 
     private static final String TAG = "Track-Mountaineer";
 
     private final String MW_MAC_ADDRESS = "C0:F3:B7:B6:16:DA";
 
-    private BarometerBosch baroBosch;
+    static BarometerBosch baroBosch;
+
+    private static final float BAROMETER_SAMPLE_FREQ = 26.32f, LIGHT_SAMPLE_PERIOD= 1 / BAROMETER_SAMPLE_FREQ;
 
     private final MetaWearBoard board = mwBoard;
 
+   static ArrayList<Entry> pressureData= new ArrayList<Entry>();
 
+    protected long prevUpdate = -1;
+
+    private final Handler chartHandler= new Handler();
+
+
+    private int sampleCount;
+
+    public DownloadHandler(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
+
+    public DownloadHandler() {
+
+    }
 
     @Override
     public void handleMessage(Message msg) {
-        //super.handleMessage(msg);
         try {
             retrieveBoard();
         } catch (UnsupportedModuleException e) {
@@ -41,7 +66,6 @@ class DownloadHandler extends Handler {
     }
 
     private void retrieveBoard() throws UnsupportedModuleException {
-
 
         board.connectAsync().onSuccessTask(new Continuation<Void, Task<Route>>() {
             @Override
@@ -60,6 +84,11 @@ class DownloadHandler extends Handler {
                         source.stream(new Subscriber() {
                             @Override
                             public void apply(Data data, Object... env) {
+
+                                if(pressureData.size() >= sampleCount) {
+                                    pressureData.add(new Entry(data.value(Float.class), sampleCount));
+                                    sampleCount ++ ;
+                                }
                                 Log.i(TAG, "Pressure (Pa) = " + data.value(Float.class));
                             }
                         });
@@ -79,5 +108,6 @@ class DownloadHandler extends Handler {
             }
         });
     }
+
 }
 
