@@ -1,5 +1,6 @@
 package com.example.swrp.trackmountaineer;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -14,6 +15,9 @@ import com.mbientlab.metawear.builder.RouteBuilder;
 import com.mbientlab.metawear.builder.RouteComponent;
 import com.mbientlab.metawear.module.BarometerBosch;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import bolts.Continuation;
@@ -105,5 +109,5 @@ class DownloadHandler extends Handler  {
         });
     }
 
-}
+    }
 
