@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         if (shouldAskPermissions()) {
             askPermissions();
         }
-        
+
         ///< Bind the service when the activity is created
         getApplicationContext().bindService(new Intent(this, BtleService.class),
                 this, Context.BIND_AUTO_CREATE);
@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         outputStream = new FileOutputStream(file, true);
 
         for (int i = 0; i<pressureData.size() ; i++){
-            outputStream.write((pressureData.get(i) + ",").getBytes());
-        }
+            outputStream.write((pressureData.get(i) + ","+ "\n").getBytes());
+        }   
         outputStream.close();
 
     }
