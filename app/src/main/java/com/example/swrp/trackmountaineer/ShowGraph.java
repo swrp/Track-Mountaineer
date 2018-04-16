@@ -1,3 +1,8 @@
+
+/*
+ShowGraphActivity -- Routes to a new window and displays a Graphical Representaion of Tracked Pressure Values
+                        Automatically orients to Horizontal View for a better quality display
+ */
 package com.example.swrp.trackmountaineer;
 
 import android.support.v7.app.AppCompatActivity;

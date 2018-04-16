@@ -1,8 +1,6 @@
 package com.example.swrp.trackmountaineer;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
@@ -17,16 +15,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mbientlab.metawear.MetaWearBoard;
 import com.mbientlab.metawear.android.BtleService;
 
@@ -39,14 +32,9 @@ import static com.example.swrp.trackmountaineer.DownloadHandler.pressureData;
 
 public class MainActivity extends AppCompatActivity implements ServiceConnection {
 
-    //MAKE A CHART TO REPRESENT DATA
-    //PUSH NOTIFICATIONS TO THE MOBILE
-    //SAVE DATA IN A TABLE
-
-    private Float max, min;
-
     private static final String TAG = "Track-Mountaineer";
 
+    //Hardcoded Metawear MAC Address
     private final String MW_MAC_ADDRESS= "C0:F3:B7:B6:16:DA";
 
     static MetaWearBoard mwBoard;
@@ -55,9 +43,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     static LineChart chart;
 
+    /*
+    Pop-up Message to access files before writing into the internal storage
+     */
     protected boolean shouldAskPermissions() {
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
+
 
     /*
         Configurations to Write data to Mobile Internal Storage
@@ -131,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         });
     }
 
+    /*
+    Method to save data in the Mobile Internal Storage - Downloads Folder
+     */
     public void saveData() throws IOException {
         String fileName = "METAWEAR.csv";
         final File path = new File(Environment.getExternalStoragePublicDirectory(
@@ -185,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void onServiceDisconnected(ComponentName name) {
     }
 
+    /*
+    Method to Push Notifications when Pressure is below sustainable Heart Rate
+     */
     public void createNotification(){
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
