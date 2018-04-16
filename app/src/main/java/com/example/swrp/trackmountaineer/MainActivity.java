@@ -1,16 +1,23 @@
 package com.example.swrp.trackmountaineer;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 
+    /*
+        Configurations to Write data to Mobile Internal Storage
+     */
     @TargetApi(23)
     protected void askPermissions() {
         String[] permissions = {
@@ -113,7 +123,12 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             }
         });
 
-
+        findViewById(R.id.notificationButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNotification();
+            }
+        });
     }
 
     public void saveData() throws IOException {
@@ -168,6 +183,32 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
+    }
+
+    public void createNotification(){
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        String CHANNEL_ID = "";
+
+
+            //Opens the graph activity with a tap on notification
+        Intent intent = new Intent(this, ShowGraph.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Resources r = getResources();
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.mountain_background)
+                .setContentTitle("Low Pressure Alert..!!")
+                .setContentText("Pressure Levels are dropping. Going Ahead might be a risk..")
+                .setAutoCancel(true)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
+        notificationManager.notify(0, notification.build());
+
     }
 
 }
