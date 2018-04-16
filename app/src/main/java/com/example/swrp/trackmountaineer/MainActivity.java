@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
         for (int i = 0; i<pressureData.size() ; i++){
             outputStream.write((pressureData.get(i) + ","+ "\n").getBytes());
-        }   
+        }
         outputStream.close();
 
     }
