@@ -4,14 +4,14 @@
 The primary idea behind this project is to develop an application that serves as a great use for **MOUNTAINEERS**. Barometric pressure is directly proportional to pulse rate, higher the altitudes lowers the atmospheric pressure(P) which inturn effects the Heartbeat (HB). Mountaineers find it difficult to track these changes which turns out to be a huge risk for their life. This android app would be handy in tracking temperature and pressure while climbing mountains. A major feature of this application is sending notification during situations of Lowered Barometric Pressure where the heart beat goes below the normal pumping rate. For a better efficiency MetaWear uses Bluetooth low energy device that captures continous activity data. All the data is synced and downloaded to the Mobile device. The downloaded data is represented in a Graphical view for each day using the time timestamp. 
 
 ## Project Goals
-* Use Login credentials to avoid access to unauthorized users. 
-* Track Temperature/Pressure.
+* Track Temperature and Pressure.
 * Push Notifications when the barometric pressure is dangerous for human Heart beat.  
+* Save the tracked data onto phone internal memory
 * Show a Graphical view of data for each day.
 
 
 ## User stories
-As a **mountaineer**, I want to **see climatic changes as I climb**, so I can **be prepared for the worst**.
+As a **mountaineer**, I want to **track drop in pressure as I climb**, so I can **be prepared for the worst**.
 
 **Acceptance Criteria:**
 * Track surrounding temperatures
