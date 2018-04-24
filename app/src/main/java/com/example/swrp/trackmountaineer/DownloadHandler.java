@@ -1,3 +1,8 @@
+
+/*
+ * Handler enqueues task in the MessageQueue using Looper and also executes them when the task comes out of the MessageQueue.
+ * Tracking data from the Metawear Sensor is performed by the handler class and runs on a seperate thread that lets the application to run when the mobile is locked.
+ */
 package com.example.swrp.trackmountaineer;
 
 import android.os.Handler;

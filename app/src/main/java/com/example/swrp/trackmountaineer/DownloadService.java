@@ -1,7 +1,9 @@
 
 /**
  * Service that lets the application to run in the background even when the mobile is locked
- */
+ * Looper is a worker that keeps a thread alive, loops through MessageQueue and sends messages to the corresponding handler to process.
+ * Finally Thread gets terminated by calling Looper’s quit() method
+ **/
 
 
 package com.example.swrp.trackmountaineer;
