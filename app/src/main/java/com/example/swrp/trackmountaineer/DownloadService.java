@@ -44,7 +44,7 @@ public class DownloadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Message message = Message.obtain();
         mHandler.sendMessage(message);
-        return Service.START_STICKY;
+        return Service.START_REDELIVER_INTENT;
     }
 
     class DownloadThread extends Thread {
@@ -56,7 +56,7 @@ public class DownloadService extends Service {
             Looper.prepare();
             mHandler = new DownloadHandler();
             Looper.loop();
+
         }
     }
-
 }

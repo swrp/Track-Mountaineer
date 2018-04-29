@@ -3,6 +3,7 @@
  * Handler enqueues task in the MessageQueue using Looper and also executes them when the task comes out of the MessageQueue.
  * Tracking data from the Metawear Sensor is performed by the handler class and runs on a seperate thread that lets the application to run when the mobile is locked.
  */
+
 package com.example.swrp.trackmountaineer;
 
 import android.os.Handler;
@@ -18,8 +19,14 @@ import com.mbientlab.metawear.UnsupportedModuleException;
 import com.mbientlab.metawear.builder.RouteBuilder;
 import com.mbientlab.metawear.builder.RouteComponent;
 import com.mbientlab.metawear.module.BarometerBosch;
+import com.mbientlab.metawear.module.Timer;
 
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -29,6 +36,10 @@ import static com.example.swrp.trackmountaineer.MainActivity.mwBoard;
 class DownloadHandler extends Handler  {
 
     private MainActivity mainActivity;
+
+    private Timer timer;
+
+    private Timer.ScheduledTask mwTask;
 
     private static final String TAG = "Track-Mountaineer";
 
@@ -73,6 +84,7 @@ class DownloadHandler extends Handler  {
             public Task<Route> then(Task<Void> task) throws Exception {
 
                 baroBosch = board.getModuleOrThrow(BarometerBosch.class);
+                timer = board.getModuleOrThrow(Timer.class);
 
                 baroBosch.configure()
                         .filterCoeff(BarometerBosch.FilterCoeff.AVG_16)
@@ -87,6 +99,11 @@ class DownloadHandler extends Handler  {
                             public void apply(Data data, Object... env) {
 
                                 if(pressureData.size() >= sampleCount) {
+                                    try {
+                                        Thread.sleep(2000); // Tracks Pressure values for every two seconds
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
                                     pressureData.add(new Entry(data.value(Float.class), sampleCount));
                                     sampleCount ++ ;
                                 }
