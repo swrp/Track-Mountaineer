@@ -89,5 +89,33 @@ Once the application reaches a threshold pressure value it sends a notification 
 |                                                                                                                                     | Tampering                 | Changing sensor components via physical manipulation of the device.                                                                         | Securing the metaware device in a tamper proof box.                                     | 
 | Mobile Application                                                                                                                  | User impersonation        | Spoofing the user with unauthorized user credentials                                                                                        | Ensure device mutual authentication is performed for all connections. Implement multi-factor authentication to prevent automated, credential stuffing, brute force, and stolen credential re-use attacks. |                           |                                                                                                                                             |                                                                                         | 
 |                                                                                                                                     |                   Data Tampering        | Physical tampering of the data on the mobile application and changing the values                                                            | The data should be resides in encrypted storage in the internal app directory.          | 
-|                                                                                                                                     | Phishing                  | The mobile application is prone to phishing attacks through malicious popups or alert.                                                      | User training to prevent clicking on unknown popups and whitelisting of trusted sources | 
+|                                                                                                                                      | Phishing                  | The mobile application is prone to phishing attacks through malicious popups or alert.                                                      | User training to prevent clicking on unknown popups and whitelisting of trusted sources | 
+
+
+## Hardware/Software Requirements
+ * Metawear device which can track pressure.
+ * Android 4.4+ (API Level 19+) with Bluetooth LE capable smart phone or tablet
+ * [Android Studios](https://developer.android.com/studio/)
+ * [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ 
+## Installation Directions
+ * Clone this repository https://github.com/swrp/Track-Mountaineer.git
+ * Open this folder in the Android studios
+ * Run the app on the targeted Android device using Android Device Bridge(ADB).
+ * If you want to run the application on the Phone or Tablet to skip the installation process [download the application here](https://github.com/swrp/Track-Mountaineer/blob/master/Track-Mountaineer.apk).
+ 
+## Getting Started Directions
+ * Connect the Metawear device to the app using BLE.
+ * If you want to track the pressure Click on the Start Button, it will continue to track the atmospheric pressure.
+ * If you want to download the tracked data on to the phone internal memory click on the download button.
+ * The application sends a notification if the pressure is below the threshold, and by clicking on the notification it gives the graph       of the tracked pressure.      
+ 
+## Presentation Slides
+   [Slides]
+ 
+
+ 
+
+ 
+
 
