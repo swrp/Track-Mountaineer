@@ -28,7 +28,7 @@ public class ShowGraph extends AppCompatActivity  {
         initializeChart();
         chart.invalidate();
         chart.setDescription(null);
-        
+
         ILineDataSet dataSet = new LineDataSet(pressureData , "Tracked Pressure Values");
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
