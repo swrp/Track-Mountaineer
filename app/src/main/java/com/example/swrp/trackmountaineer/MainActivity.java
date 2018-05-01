@@ -23,6 +23,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.mbientlab.metawear.MetaWearBoard;
 import com.mbientlab.metawear.android.BtleService;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +34,8 @@ import static com.example.swrp.trackmountaineer.DownloadHandler.pressureData;
 public class MainActivity extends AppCompatActivity implements ServiceConnection {
 
     private static final String TAG = "Track-Mountaineer";
+
+    static int numOfValues = 0;
 
     //Hardcoded Metawear MAC Address
     private final String MW_MAC_ADDRESS= "C0:F3:B7:B6:16:DA";
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
 
     /*
-        Configurations to Write data to Mobile Internal Storage
+        Setting Permissions to Write data to Mobile Internal Storage
      */
     @TargetApi(23)
     protected void askPermissions() {
@@ -118,13 +121,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         findViewById(R.id.notificationButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNotification();
+                createNotification(); // pops up notification when the pressure is low
             }
         });
     }
 
     /*
-    Method to save data in the Mobile Internal Storage - Downloads Folder
+    Method to save tracked data in the Mobile Internal Storage - Downloads Folder
      */
     public void saveData() throws IOException {
         String fileName = "METAWEAR.csv";

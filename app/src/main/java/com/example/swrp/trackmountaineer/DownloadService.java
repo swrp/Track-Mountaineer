@@ -22,6 +22,8 @@ public class DownloadService extends Service {
     DownloadThread mThread;
     DownloadHandler mHandler;
 
+    // Creating a new thread so that tracking is performed as a background service
+    //Doesn't run on the main thread
     @Override
     public void onCreate() {
         mThread = new DownloadThread();
@@ -44,18 +46,19 @@ public class DownloadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Message message = Message.obtain();
         mHandler.sendMessage(message);
-        return Service.START_REDELIVER_INTENT;
+        return Service.START_REDELIVER_INTENT; // Starts the thread even after closing the application
     }
 
+    // Runs as a seperate thread to track pressure values
     class DownloadThread extends Thread {
 
         DownloadHandler mHandler;
 
         @Override
         public void run() {
-            Looper.prepare();
+            Looper.prepare(); // looper and MessageQueue paased to the thred
             mHandler = new DownloadHandler();
-            Looper.loop();
+            Looper.loop(); // Keeps the thread alive and loops around Message Queue
 
         }
     }

@@ -16,7 +16,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import static com.example.swrp.trackmountaineer.DownloadHandler.pressureData;
 import static com.example.swrp.trackmountaineer.MainActivity.chart;
 
-public class ShowGraph extends AppCompatActivity {
+public class ShowGraph extends AppCompatActivity  {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class ShowGraph extends AppCompatActivity {
         initializeChart();
         chart.invalidate();
         chart.setDescription(null);
-
+        
         ILineDataSet dataSet = new LineDataSet(pressureData , "Tracked Pressure Values");
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);

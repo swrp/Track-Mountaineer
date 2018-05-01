@@ -19,14 +19,10 @@ import com.mbientlab.metawear.UnsupportedModuleException;
 import com.mbientlab.metawear.builder.RouteBuilder;
 import com.mbientlab.metawear.builder.RouteComponent;
 import com.mbientlab.metawear.module.BarometerBosch;
+import com.mbientlab.metawear.module.Temperature;
 import com.mbientlab.metawear.module.Timer;
 
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -47,13 +43,16 @@ class DownloadHandler extends Handler  {
 
     static BarometerBosch baroBosch;
 
-    private static final float BAROMETER_SAMPLE_FREQ = 26.32f, LIGHT_SAMPLE_PERIOD= 1 / BAROMETER_SAMPLE_FREQ;
 
     private final MetaWearBoard board = mwBoard;
 
    static ArrayList<Entry> pressureData= new ArrayList<Entry>();
 
+   static ArrayList<Entry> timeStamp = new ArrayList<Entry>();
+
     protected long prevUpdate = -1;
+
+    protected Route streamRoute = null;
 
     private final Handler chartHandler= new Handler();
 
@@ -100,7 +99,7 @@ class DownloadHandler extends Handler  {
 
                                 if(pressureData.size() >= sampleCount) {
                                     try {
-                                        Thread.sleep(2000); // Tracks Pressure values for every two seconds
+                                        Thread.sleep(1000); // Tracks Pressure values for every second
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
@@ -114,18 +113,19 @@ class DownloadHandler extends Handler  {
                 });
             }
         }).continueWith(new Continuation<Route, Void>() {
-            @Override
-            public Void then(Task<Route> task) throws Exception {
-                if (task.isFaulted()) {
-                    Log.w(TAG, "Failed to configure the app" + task.getError());
-                } else {
-                    Log.i(TAG, "App Configured");
-                    baroBosch.start();
-                }
-                return null;
-            }
-        });
+                    @Override
+                    public Void then(Task<Route> task) throws Exception {
+                        if (task.isFaulted()) {
+                            Log.w(TAG, "Failed to configure the app" + task.getError());
+                        } else {
+                            Log.i(TAG, "App Configured");
+                            baroBosch.start();
+                        }
+                        return null;
+                    }
+                });
     }
+}
 
-    }
+
 
