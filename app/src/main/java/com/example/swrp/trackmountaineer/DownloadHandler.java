@@ -37,9 +37,9 @@ class DownloadHandler extends Handler  {
 
     private Timer.ScheduledTask mwTask;
 
-    private static final String TAG = "Track-Mountaineer";
+    private static final String TAG = "Track-Mountaineer"; //Tag value for ease of reading logcat
 
-    private final String MW_MAC_ADDRESS = "C0:F3:B7:B6:16:DA";
+    private final String MW_MAC_ADDRESS = "C0:F3:B7:B6:16:DA"; //Hardcoded MAC address
 
     static BarometerBosch baroBosch;
 
@@ -67,6 +67,7 @@ class DownloadHandler extends Handler  {
 
     }
 
+    //Handler function called by the looper
     @Override
     public void handleMessage(Message msg) {
         try {
@@ -76,6 +77,7 @@ class DownloadHandler extends Handler  {
         }
     }
 
+    //Function where the Application starts tracking the pressure values from the Metawear Sensor
     private void retrieveBoard() throws UnsupportedModuleException {
 
         board.connectAsync().onSuccessTask(new Continuation<Void, Task<Route>>() {
@@ -103,6 +105,7 @@ class DownloadHandler extends Handler  {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
+                                    //logs pressure value into an arraylist
                                     pressureData.add(new Entry(data.value(Float.class), sampleCount));
                                     sampleCount ++ ;
                                 }
@@ -119,7 +122,7 @@ class DownloadHandler extends Handler  {
                             Log.w(TAG, "Failed to configure the app" + task.getError());
                         } else {
                             Log.i(TAG, "App Configured");
-                            baroBosch.start();
+                            baroBosch.start(); // starts tracking on successful connection with the metawear board
                         }
                         return null;
                     }
